@@ -1,17 +1,26 @@
-package com.example.laboratorio3
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.laboratorio3_2
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,99 +28,117 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.laboratorio3_2.ui.theme.laboratorio3_2Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color(0xFFDDEEE0) // Fondo verde claro como en el ejemplo
-            ) {
-                BusinessCard()
+            laboratorio3_2Theme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    // Box para superponer elementos
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        ComposeQuadrantApp() // tus cuadrantes
+
+                        // Texto con tu nombre en la parte inferior izquierda
+                        Text(
+                            text = stringResource(R.string.mi_name),
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .padding(16.dp),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun BusinessCard() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFDDEEE0)) // mismo color de fondo
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        // Imagen central (el logo de Android)
-        Image(
-            painter = painterResource(id = R.drawable.android_logo), // reemplaza con tu logo
-            contentDescription = "Android Logo",
-            modifier = Modifier
-                .size(120.dp)
-                .background(Color(0xFF073042), shape = CircleShape) // fondo oscuro circular
-                .padding(16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Nombre
-        Text(
-            text = "Brahan Mauricio Quispe",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
-
-        // Título
-        Text(
-            text = "Android Developer Extraordinaire",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF2E7D32)
-        )
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        // Información de contacto
-        Column(
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            ContactRow(icon = Icons.Default.Phone, text = "+11 (123) 444 555 666")
-            ContactRow(icon = Icons.Default.Share, text = "@AndroidDev")
-            ContactRow(icon = Icons.Default.Email, text = "Bra.doe@android.com")
+fun ComposeQuadrantApp() {
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.weight(1f)) {
+            ComposableInfoCard(
+                title = stringResource(R.string.first_title),
+                description = stringResource(R.string.first_description),
+                backgroundColor = Color(0xFFEADDFF),
+                modifier = Modifier.weight(1f)
+            )
+            ComposableInfoCard(
+                title = stringResource(R.string.second_title),
+                description = stringResource(R.string.second_description),
+                backgroundColor = Color(0xFFD0BCFF),
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Row(Modifier.weight(1f)) {
+            ComposableInfoCard(
+                title = stringResource(R.string.third_title),
+                description = stringResource(R.string.third_description),
+                backgroundColor = Color(0xFFB69DF8),
+                modifier = Modifier.weight(1f)
+            )
+            ComposableInfoCard(
+                title = stringResource(R.string.fourth_title),
+                description = stringResource(R.string.fourth_description),
+                backgroundColor = Color(0xFFF6EDFF),
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
 
 @Composable
-fun ContactRow(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 32.dp)
+private fun ComposableInfoCard(
+    title: String,
+    description: String,
+    backgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(backgroundColor)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        androidx.compose.material3.Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = Color(0xFF2E7D32),
-            modifier = Modifier.size(24.dp)
+        Text(
+            text = title,
+            modifier = Modifier.padding(bottom = 16.dp),
+            fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(text = text, fontSize = 14.sp)
+        Text(
+            text = description,
+            textAlign = TextAlign.Justify
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewBusinessCard() {
-    BusinessCard()
+fun ComposeQuadrantAppPreview() {
+    laboratorio3_2Theme {
+        Box(modifier = Modifier.fillMaxSize()) {
+            ComposeQuadrantApp()
+            Text(
+                text = stringResource(R.string.mi_name),
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(16.dp),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
 }
