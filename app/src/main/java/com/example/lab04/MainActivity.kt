@@ -48,6 +48,13 @@ fun ViewHolaCurso() {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Hello, Student!",
+            fontSize = 22.sp, // Aumentamos un poco el tamaño
+            fontWeight = FontWeight.SemiBold, // Más grueso
+            color = androidx.compose.ui.graphics.Color(0xFF6200EE) // Color morado
+        )
+
+        Text(
+            text = "Brahan Mauricio Quispe Iño",
             fontSize = 20.sp
         )
     }
