@@ -45,7 +45,7 @@ fun ViewHolaCurso() {
             fontSize = 32.sp, // más grande
             fontWeight = FontWeight.Bold,
             color = androidx.compose.ui.graphics.Color(0xFF009688), // verde agua
-            letterSpacing = 2.sp // espacio entre letras
+            letterSpacing = 2.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
